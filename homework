@@ -1,0 +1,114 @@
+import random
+
+def forestTreasureHunt():
+    print("\nWelcome to the Forest Treasure Hunt!")
+    
+    #Monkey and fruits part
+    correctFruits = ["banana", "apple", "strawberry", "blueberry", "orange"]
+    while True:
+        print("\nA wild monkey appears! He wants to play a game with you. Guess the five fruits to pass.")
+        guesses = []
+        for i in range(5):
+            fruit = input(f"Guess fruit {i + 1}: ").lower()
+            guesses.append(fruit)
+        
+        correctGuesses = [fruit for fruit in guesses if fruit in correctFruits]
+        if len(correctGuesses) == 5:
+            print("Fine. You may pass...")
+            break
+        else:
+            print(f"Correct fruits: {', '.join(correctGuesses)}. Try again!")
+    
+    #Tiger and river part
+    print("\nA hungry tiger blocks your path! You must cross a river to escape.")
+    while True:
+        try:
+            height = float(input("Enter your height in cm: "))
+            if height <= 160:
+                print("You drown. Game over!")
+                return
+            elif 160 < height <= 180:
+                print("You live!")
+                break
+            else:
+                print("The tiger spots you too easily and you die. Game over!")
+                return
+        except ValueError:
+            print("Don't play with me when your life is on the line. VALID inputs only.")
+    
+    #Door part
+    print("\nYou reach a door that requires a 4 digit password to unlock. Ten attempts only.")
+    password = [str(random.randint(0, 9)) for _ in range(4)]
+    for attempt in range(10):
+        guess = input(f"Attempt {attempt + 1}: Enter a 4 digit password: ")
+        correctCount = sum((1 for i in range(4) if guess[i] == password[i]))
+        if correctCount == 4:
+            print("Congratulations! You finally beat it.")
+            break
+        else:
+            print(f"{correctCount}/4 digits are correct.")
+    else:
+        print(f"Sorry, you lost. The correct password was {''.join(password)}.")
+    
+def pythonQuiz():
+    print("\nWelcome to the Python Quiz!")
+    questions = [
+        {"question": "What is the output of print(2 ** 3)?", "choices": ["a) 6", "b) 8", "c) 9", "d) 12"], "answer": "b"},
+        {"question": "Which of the following is a mutable data type?", "choices": ["a) Tuple", "b) String", "c) List", "d) Integer"], "answer": "c"},
+        {"question": "Which keyword is used to create a function in Python?", "choices": ["a) func", "b) def", "c) function", "d) int"], "answer": "b"},
+        {"question": "What is the correct file extension for Python files?", "choices": ["a) .py", "b) .pyth", "c) .pt", "d) .pyt"], "answer": "a"},
+        {"question": "What does the 'len' function do in Python?", "choices": ["a) Returns the length of an object", "b) Deletes an object", "c) Checks the type of an object", "d) Sorts an object"], "answer": "a"},
+        {"question": "Which of these is a valid variable name in Python?", "choices": ["a) 2var", "b) var_2", "c) var-2", "d) var$2"], "answer": "b"},
+    ]
+    
+    score = 0
+    for i, question in enumerate(questions, start=1):
+        print(f"\nQuestion {i}: {question['question']}")
+        for choice in question['choices']:
+            print(choice)
+        answer = input("Choose one: (a/b/c/d): ").lower()
+        if answer == question['answer']:
+            score += 1
+    
+    print(f"\nYou answered {score} questions correctly and {6 - score} questions incorrectly.")
+    percentage = (score / 6) * 100
+    print(f"Your score is: {percentage:.2f}%")
+    
+    if score == 6:
+        print("Congrats! You aced the quiz!")
+    elif score >= 4:
+        print("Well done?")
+    elif score >= 2:
+        print("You passed, I guess.")
+    else:
+        print("You're bad...")
+    
+def main():
+    print("Welcome!")
+    scenario = random.choice(["forest", "quiz"])
+    
+    if scenario == "forest":
+        print("Loading forest game...")
+        forestTreasureHunt()
+    else:
+        print("Loading python quiz...")
+        pythonQuiz()
+    
+    while True:
+        playAgain = input("\nWould you like to try the other game? (yes/no): ").lower()
+        if playAgain == "yes":
+            if scenario == "forest":
+                pythonQuiz()
+            else:
+                forestTreasureHunt()
+            break
+        elif playAgain == "no":
+            print("Thank you for playing! Goodbye!")
+            break
+        else:
+            print("Enter a valid answer.")
+    
+if __name__ == "__main__":
+    main()
+
+	
